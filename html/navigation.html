@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <!-- 声明这是 html 5 文件 -->
+<html>
 <head>
     <meta http-equiv="content-type" content="text/html" charset="UTF-8">
     <!-- 规定文档的字符编码为 UTF-8 -->
@@ -11,11 +12,42 @@
     <!-- 从 BootCDN 引入 Bootstrap4 核心 JavaScript 文件 -->
     <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css">
     <!-- 从 BootCDN 引入 Font Awesome 图标库 -->
-</head>
+    <style>
+        body {
+            font-size: 12px;
+            font-family: Arial;
+        }
 
-<nav>
+        a {
+            color: #999;
+        }
+
+        .redColor {
+            color: #C40000 !important;
+        }
+
+        nav.top {
+            background-color: #f2f2f2;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #e7e7e7;
+        }
+
+        nav.top span, nav.top a, nav.top i {
+            color: #999;
+            margin: 0px 10px 0px 10px;
+        }
+
+        nav.top a:hover {
+            color: #C40000;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<nav class="top">
     <a href="#">
-        <i class="fa fa-home"></i>
+        <i class="fa fa-home redColor"></i>
         <!-- 引入主页图标 -->
         天猫首页
     </a>
@@ -26,13 +58,14 @@
 
     <a href="#">免费注册</a>
 
-    <span>
+    <span class="float-right">
         <a href="#">我的订单</a>
         <a href="#">
-            <i class="fa fa-shopping-cart"></i>
+            <i class="fa fa-shopping-cart redColor"></i>
             <!-- 引入购物车图标 -->
             购物车<strong>0</strong>件
         </a>
     </span>
-
 </nav>
+</body>
+</html>

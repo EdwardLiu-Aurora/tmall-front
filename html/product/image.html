@@ -11,6 +11,28 @@
     <!-- 从 BootCDN 引入 Font Awesome 图标库 -->
 </head>
 
+<script>
+    $(function(){
+        $("img.smallImage").mouseenter(function(){
+            var bigImageURL = $(this).attr("bigImageURL");
+            $("img.bigImg").attr("src",bigImageURL);
+        });
+        $("img.bigImg").load(
+            function(){
+                $("img.smallImage").each(function(){
+                    var bigImageURL = $(this).attr("bigImageURL");
+                    img = new Image();
+                    img.src = bigImageURL;
+                    img.onload = function(){
+                        console.log(bigImageURL);
+                        $("div.img4load").append($(img));
+                    };
+                });
+            }
+        );
+    });
+</script>
+
 <style>
     div.imgAndInfo{
         margin: 40px 20px;
@@ -19,7 +41,7 @@
         width: 400px;
         float: left;
     }
-    div.imgAndInfo img.bigImg {
+    div.imgAndInfo img.bigImg{
         width: 400px;
         height: 400px;
         padding: 20px;
@@ -34,21 +56,22 @@
         height: 60px;
         border: 2px solid white;
     }
-    div.imgAndInfo img.smallImage:hover {
+    div.imgAndInfo img.smallImage:hover{
         border: 2px solid black;
     }
 </style>
-
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <div class="imgAndInfo">
     <div class="imgInimgAndInfo">
-        <img width="100px" class="bigImg" src="../../img/productSingle/8619.jpg" />
+        <img  width="100px" class="bigImg" src="../../img/productSingle/8619.jpg">
         <div class="smallImageDiv">
-            <img width="56px" class="smallImage" src="../../img/productSingle_small/8620.jpg" />
-            <img width="56px" class="smallImage" src="../../img/productSingle_small/8619.jpg" />
-            <img width="56px" class="smallImage" src="../../img/productSingle_small/8618.jpg" />
-            <img width="56px" class="smallImage" src="../../img/productSingle_small/8617.jpg" />
-            <img width="56px" class="smallImage" src="../../img/productSingle_small/8616.jpg" />
+            <img  width="100px" class="smallImage"  src="../../img/productSingle_small/8620.jpg" bigImageURL="../../img/productSingle/8620.jpg">
+            <img  width="100px" class="smallImage" src="../../img/productSingle_small/8619.jpg" bigImageURL="../../img/productSingle/8619.jpg">
+            <img  width="100px" class="smallImage" src="../../img/productSingle_small/8618.jpg" bigImageURL="../../img/productSingle/8618.jpg">
+            <img  width="100px" class="smallImage" src="../../img/productSingle_small/8617.jpg" bigImageURL="../../img/productSingle/8617.jpg">
+            <img  width="100px" class="smallImage" src="../../img/productSingle_small/8616.jpg" bigImageURL="../../img/productSingle/8616.jpg">
         </div>
+        <div class="img4load hidden" ></div>
     </div>
     <div style="clear:both"></div>
 </div>

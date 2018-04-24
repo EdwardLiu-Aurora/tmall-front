@@ -11,6 +11,37 @@
     <!-- 从 BootCDN 引入 Font Awesome 图标库 -->
 </head>
 
+<script>
+    $(function(){
+       var stock = 66;
+       $(".productNumberSetting").keyup(function(){
+           var num = $(".productNumberSetting").val();
+           num = parseInt(num);
+           if(isNaN(num))
+               num=1;
+           if(num<=0)
+               num=1;
+           if(num>stock)
+               num=stock;
+           $(".productNumberSetting").val(num);
+       });
+       $(".increaseNumber").click(function(){
+           var num=$(".productNumberSetting").val();
+           num++;
+           if(num>stock)
+               num=stock;
+           $(".productNumberSetting").val(num);
+       });
+       $(".decreaseNumber").click(function(){
+           var num=$(".productNumberSetting").val();
+           --num;
+           if(num<=0)
+               num=1;
+           $(".productNumberSetting").val(num);
+       });
+    });
+</script>
+
 <style>
     body{
         font-size: 12px;
@@ -249,7 +280,7 @@
                 <input type="text" value="1" class="productNumberSetting">
             </span>
             <span class="arrow">
-                <a class="increaeNumber" href="#">
+                <a class="increaseNumber" href="#">
                     <span class="updown">
                         <img src="../../img/site/increase.png"/>
                     </span>

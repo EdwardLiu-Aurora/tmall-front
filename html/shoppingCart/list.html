@@ -98,9 +98,211 @@
     img.cartProductItemIfSelected, img.selectAllItem{
         cursor: pointer;
     }
+    body{
+        font-size: 12px;
+        font-family: Arial;
+    }
+    div.cartDiv{
+        max-width: 1013px;
+        margin: 10px auto;
+        color: black;
+    }
+    div.cartTitle button{
+        background-color:#AAAAAA;
+        border: 1px solid #AAAAAA;
+        color: white;
+        width: 53px;
+        height: 25px;
+        border-radius: 2px;
+    }
+    span.cartTitlePrice{
+        color: #C40000;
+        font-size:14px;
+        font-weight: bold;
+        margin-left: 5px;
+        margin-right:3px;
+    }
+    div.cartFoot{
+        backgorund-color: #E5E5E5;
+        line-height:50px;
+        margin: 20px 0px;
+        color: black;
+        padding-left: 20px;
+    }
+    div.cartFoot button{
+        background-color: #AAAAAA;
+        border: 0px solid #AAAAAA;
+        color: white;
+        width: 120px;
+        height: 50px;
+        font-size: 20px;
+        text-align: center;
+    }
+    img.cartProductItemIfSelected, img.selectAllItem{
+        cursor:pointer;
+    }
+    span.cartSumNumber{
+        color: #C40000;
+        font-weight:bold;
+        font-size:16px;
+    }
+    span.cartSumPrice{
+        color:#C40000;
+        font-weight:bold;
+        font-size:20px;
+    }
 </style>
 
+<script>
+    function formatMoney(num){
+        num = num.toString().replace(/\$|\,/g,'');
+        if(isNaN(num))
+            num = "0";
+        sign = (num == (num = Math.abs(num)));
+        num = Math.floor(num*100+0.50000000001);
+        cents = num%100;
+        num = Math.floor(num/100).toString();
+        if(cents<10)
+            cents = "0" + cents;
+        for (var i = 0; i < Math.floor((num.length-(1+i))/3); i++)
+            num = num.substring(0,num.length-(4*i+3))+','+
+                num.substring(num.length-(4*i+3));
+        return (((sign)?'':'-') + num + '.' + cents);
+    }
+    $(function(){
+        $("img.cartProductItemIfSelected").click(function(){
+            var selectit = $(this).attr("selectit")
+            if("selectit"==selectit){
+                $(this).attr("src","../../img/site/cartNotSelected.png");
+                $(this).attr("selectit","false")
+                $(this).parents("tr.cartProductItemTR").css("background-color","#fff");
+            }
+            else{
+                $(this).attr("src","../../img/site/cartSelected.png");
+                $(this).attr("selectit","selectit")
+                $(this).parents("tr.cartProductItemTR").css("background-color","#FFF8E1");
+            }
+            syncSelect();
+            syncCreateOrderButton();
+            calcCartSumPriceAndNumber();
+        });
+        $("img.selectAllItem").click(function(){
+            var selectit = $(this).attr("selectit")
+            if("selectit"==selectit){
+                $("img.selectAllItem").attr("src","../../img/site/cartNotSelected.png");
+                $("img.selectAllItem").attr("selectit","false")
+                $(".cartProductItemIfSelected").each(function(){
+                    $(this).attr("src","../../img/site/cartNotSelected.png");
+                    $(this).attr("selectit","false");
+                    $(this).parents("tr.cartProductItemTR").css("background-color","#fff");
+                });
+            }
+            else{
+                $("img.selectAllItem").attr("src","../../img/site/cartSelected.png");
+                $("img.selectAllItem").attr("selectit","selectit")
+                $(".cartProductItemIfSelected").each(function(){
+                    $(this).attr("src","../../img/site/cartSelected.png");
+                    $(this).attr("selectit","selectit");
+                    $(this).parents("tr.cartProductItemTR").css("background-color","#FFF8E1");
+                });
+            }
+            syncCreateOrderButton();
+            calcCartSumPriceAndNumber();
+        });
+        $(".orderItemNumberSetting").keyup(function(){
+            var pid=$(this).attr("pid");
+            var stock= $("span.orderItemStock[pid="+pid+"]").text();
+            var price= $("span.orderItemPromotePrice[pid="+pid+"]").text();
+            var num= $(".orderItemNumberSetting[pid="+pid+"]").val();
+            num = parseInt(num);
+            if(isNaN(num))
+                num= 1;
+            if(num<=0)
+                num = 1;
+            if(num>stock)
+                num = stock;
+            syncPrice(pid,num,price);
+        });
+        $(".numberPlus").click(function(){
+            var pid=$(this).attr("pid");
+            var stock= $("span.orderItemStock[pid="+pid+"]").text();
+            var price= $("span.orderItemPromotePrice[pid="+pid+"]").text();
+            var num= $(".orderItemNumberSetting[pid="+pid+"]").val();
+            num++;
+            if(num>stock)
+                num = stock;
+            syncPrice(pid,num,price);
+        });
+        $(".numberMinus").click(function(){
+            var pid=$(this).attr("pid");
+            var stock= $("span.orderItemStock[pid="+pid+"]").text();
+            var price= $("span.orderItemPromotePrice[pid="+pid+"]").text();
+            var num= $(".orderItemNumberSetting[pid="+pid+"]").val();
+            --num;
+            if(num<=0)
+                num=1;
+            syncPrice(pid,num,price);
+        });
+
+    })
+    function syncCreateOrderButton(){
+        var selectAny = false;
+        $(".cartProductItemIfSelected").each(function(){
+            if("selectit"==$(this).attr("selectit")){
+                selectAny = true;
+            }
+        });
+        if(selectAny){
+            $("button.createOrderButton").css("background-color","#C40000");
+            $("button.createOrderButton").removeAttr("disabled");
+        }
+        else{
+            $("button.createOrderButton").css("background-color","#AAAAAA");
+            $("button.createOrderButton").attr("disabled","disabled");
+        }
+    }
+    function syncSelect(){
+        var selectAll = true;
+        $(".cartProductItemIfSelected").each(function(){
+            if("false"==$(this).attr("selectit")){
+                selectAll = false;
+            }
+        });
+        if(selectAll)
+            $("img.selectAllItem").attr("src","../../img/site/cartSelected.png");
+        else
+            $("img.selectAllItem").attr("src","../../img/site/cartNotSelected.png");
+    }
+    function calcCartSumPriceAndNumber(){
+        var sum = 0;
+        var totalNumber = 0;
+        $("img.cartProductItemIfSelected[selectit='selectit']").each(function(){
+            var oiid = $(this).attr("oiid");
+            var price =$(".cartProductItemSmallSumPrice[oiid="+oiid+"]").text();
+            price = price.replace(/,/g, "");
+            price = price.replace(/¥/g, "");
+            sum += new Number(price);
+            var num =$(".orderItemNumberSetting[oiid="+oiid+"]").val();
+            totalNumber += new Number(num);
+        });
+        $("span.cartSumPrice").html("¥"+formatMoney(sum));
+        $("span.cartTitlePrice").html("¥"+formatMoney(sum));
+        $("span.cartSumNumber").html(totalNumber);
+    }
+    function syncPrice(pid,num,price){
+        $(".orderItemNumberSetting[pid="+pid+"]").val(num);
+        var cartProductItemSmallSumPrice = formatMoney(num*price);
+        $(".cartProductItemSmallSumPrice[pid="+pid+"]").html("¥"+cartProductItemSmallSumPrice);
+        calcCartSumPriceAndNumber();
+    }
+</script>
+
 <div class="cartDiv">
+    <div class="cartTitle float-right">
+        <span>已选商品 （不含运费）</span>
+        <span class="cartTitlePrice">¥ 0.00</span>
+        <button class="createOrderButton" style="background-color:rgb(170,170,170);" disabled="disabled">结 算</button>
+    </div>
     <div class="cartProductList">
         <table class="cartProductTable">
             <tr>
@@ -115,7 +317,7 @@
             </tr>
             <tr class="cartProductItemTR" oiid="936">
                 <td>
-                    <img src="../../img/site/cartNotSelected.png" class="cartProductItemIfSelected" oidd="936" selectit="false" />
+                    <img src="../../img/site/cartNotSelected.png" class="cartProductItemIfSelected" oiid="936" selectit="false" />
                     <a href="#" style="display:none"><img src="../../img/site/cartSelected.png" /></a>
                     <img width="40px" src="../../img/productSingle_middle/3665.jpg" class="cartProductImg" />
                 </td>
@@ -138,7 +340,7 @@
                         <span pid="365" class="hidden orderItemStock " hidden>75</span>
                         <span pid="365" class="hidden orderItemPromotePrice " hidden>5306.0</span>
                         <a href="#nowhere" class="numberMinus" pid="365">-</a>
-                        <input value="4" autocomplete="off" class="orderItemNumberSetting" oiid="936" pid="365">
+                        <input value="1" autocomplete="off" class="orderItemNumberSetting" oiid="936" pid="365">
                         <a href="#nowhere" class="numberPlus" pid="365" stock="75">+</a>
                     </div>
                 </td>
@@ -151,17 +353,17 @@
             </tr>
             <tr class="cartProductItemTR" oiid="935">
                 <td>
-                    <img src="http://how2j.cn/tmall/img/site/cartNotSelected.png" class="cartProductItemIfSelected" oiid="935" selectit="false">
-                    <a href="#nowhere" style="display:none"><img src="http://how2j.cn/tmall/img/site/cartSelected.png"></a>
-                    <img width="40px" src="http://how2j.cn/tmall/img/productSingle_middle/8510.jpg" class="cartProductImg">
+                    <img src="../../img/site/cartNotSelected.png" class="cartProductItemIfSelected" oiid="935" selectit="false">
+                    <a href="#nowhere" style="display:none"><img src="../../img/site/cartSelected.png"></a>
+                    <img width="40px" src="../../img/productSingle_middle/8510.jpg" class="cartProductImg">
                 </td>
                 <td>
                     <div class="cartProductLinkOutDiv">
                         <a class="cartProductLink" href="#nowhere">阔腿裤三件套装女夏装2016新款大码雪纺时尚休闲气质棉麻九分裤潮</a>
                         <div class="cartProductLinkInnerDiv">
-                            <img title="支持信用卡支付" src="http://how2j.cn/tmall/img/site/creditcard.png">
-                            <img title="消费者保障服务,承诺7天退货" src="http://how2j.cn/tmall/img/site/7day.png">
-                            <img title="消费者保障服务,承诺如实描述" src="http://how2j.cn/tmall/img/site/promise.png">
+                            <img title="支持信用卡支付" src="../../img/site/creditcard.png">
+                            <img title="消费者保障服务,承诺7天退货" src="../../img/site/7day.png">
+                            <img title="消费者保障服务,承诺如实描述" src="../../img/site/promise.png">
                         </div>
                     </div>
                 </td>
@@ -188,5 +390,15 @@
                 </td>
             </tr>
         </table>
+    </div>
+    <div class="cartFoot">
+        <img src="../../img/site/cartNotSelected.png" class="selectAllItem" selectit="false" />
+        <span>全选</span>
+        <div class="float-right">
+            <span>已选商品 <span class="cartSumNumber">0</span> 件</span>
+            <span>合计（不含运费）：</span>
+            <span class="cartSumPrice">¥0.00</span>
+            <button class="createOrderButton" style="background-color: rgb(170,170,170);" disabled="disabled">结 算</button>
+        </div>
     </div>
 </div>

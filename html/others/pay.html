@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<head>
+    <meta http-equiv="content-type" content="text/html" charset="UTF-8">
+    <!-- 规定文档的字符编码为 UTF-8 -->
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <!-- 从 BootCDN 引入 jQuery 库 -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+    <!-- 从 BootCDN 引入 Bootstrap4 核心 CSS 文件 -->
+    <script src="https://cdn.bootcss.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+    <!-- 从 BootCDN 引入 Bootstrap4 核心 JavaScript 文件 -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css">
+    <!-- 从 BootCDN 引入 Font Awesome 图标库 -->
+</head>
+
+<style>
+    body{
+        font-size: 12px;
+        font-family: Arial;
+    }
+    div.aliPayPageDiv{
+        text-align: center;
+        padding-bottom: 40px;
+        max-width: 1013px;
+        margin: 10px auto;
+    }
+    div.aliPayPageLogo{
+        magin: 20px;
+    }
+    span.confirmMoneyText{
+        color: #4D4D4D;
+    }
+    span.confirmMoney{
+        display: block;
+        color: #FF6600;
+        font-weight: bold;
+        font-size: 20px;
+        margin: 10px;
+    }
+    button.confirmPay{
+        background-color: #00AAEE;
+        border: 1px solid #00AAEE;
+        text-align: center;
+        line-height: 31px;
+        font-size: 14px;
+        font-weight: 700;
+        color: white;
+        width: 107px;
+        margin-top: 20px;
+    }
+</style>
+
+<div class="aliPayPageDiv">
+    <div class="aliPayPageLogo">
+        <img src="../../img/site/simpleLogo.png" class="float-left" />
+        <div style="clear:both"></div>
+    </div>
+    <div>
+        <span class="confirmMoneyText">扫一扫付款（元）</span>
+        <span class="confirmMoney">¥ 1,359.20</span>
+    </div>
+    <div>
+        <img src="../../img/site/alipay2wei.png" class="aliPayImg" />
+    </div>
+    <div>
+        <a href="#"><button class="confirmPay">确认支付</button></a>
+    </div>
+</div>

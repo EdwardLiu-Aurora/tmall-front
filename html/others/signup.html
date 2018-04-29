@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<head>
+    <meta http-equiv="content-type" content="text/html" charset="UTF-8">
+    <!-- 规定文档的字符编码为 UTF-8 -->
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <!-- 从 BootCDN 引入 jQuery 库 -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+    <!-- 从 BootCDN 引入 Bootstrap4 核心 CSS 文件 -->
+    <script src="https://cdn.bootcss.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+    <!-- 从 BootCDN 引入 Bootstrap4 核心 JavaScript 文件 -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css">
+    <!-- 从 BootCDN 引入 Font Awesome 图标库 -->
+</head>
+
+<style>
+    div.registerDiv{
+        margin: 10px 20px;
+        text-align: center;
+    }
+    table.registerTable{
+        color: #3C3C3C;
+        font-size: 16px;
+        table-layout: fixed;
+        margin-top: 50px;
+    }
+    table.registerTable td{
+        padding: 10px 30px;
+    }
+    table.registerTable input{
+        border: 1px solid #DEDEDE;
+        width: 213px;
+        height: 36px;
+        font-size: 14px;
+    }
+    table.registerTable button{
+        width: 170px;
+        height: 36px;
+        border-radius: 2px;
+        color: white;
+        background-color: #C40000;
+        border-width: 0px;
+    }
+    td.registerTip{
+        font-weight: bold;
+    }
+    td.registerTableLeftTD{
+        width: 300px;
+        text-align: right;
+    }
+    td.registerTableRightTD{
+        width: 300px;
+        text-align: left;
+    }
+    td.registerButtonTD{
+        text-align: center;
+    }
+</style>
+<div class="registerDiv">
+    <table align="center" class="registerTable">
+        <tbody><tr>
+            <td class="registerTip registerTableLeftTD">设置会员名</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td class="registerTableLeftTD">登陆名</td>
+            <td class="registerTableRightTD"><input placeholder="会员名一旦设置成功，无法修改" name="name" id="name"> </td>
+        </tr>
+        <tr>
+            <td class="registerTip registerTableLeftTD">设置登陆密码</td>
+            <td class="registerTableRightTD">登陆时验证，保护账号信息</td>
+        </tr>
+        <tr>
+            <td class="registerTableLeftTD">登陆密码</td>
+            <td class="registerTableRightTD"><input type="password" placeholder="设置你的登陆密码" name="password" id="password"> </td>
+        </tr>
+        <tr>
+            <td class="registerTableLeftTD">密码确认</td>
+            <td class="registerTableRightTD"><input type="password" placeholder="请再次输入你的密码" id="repeatpassword"> </td>
+        </tr>
+        <tr>
+            <td class="registerButtonTD" colspan="2">
+                <a href="#"><button>提   交</button></a>
+            </td>
+        </tr>
+        </tbody></table>
+</div>
